@@ -2,9 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8001;
-
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const db = require('./config/mongoose-connection');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
