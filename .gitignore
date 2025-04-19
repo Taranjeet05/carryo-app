@@ -1,2 +1,4 @@
 node_modules
 .env
+# Ignore the development.json file for sensitive data
+config/development.json
