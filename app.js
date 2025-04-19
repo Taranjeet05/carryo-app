@@ -19,6 +19,36 @@ app.use("/owners", ownersRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
+/* I am creating some routes for testing out ejs*/
+
+app.get("/", (req, res) => {
+  res.render("index"); // Render the index.ejs file
+});
+
+app.get("/header", (req, res) => {
+  res.render("header"); // Render the header.ejs file
+});
+
+app.get("/admin", (req, res) => {
+  res.render("admin"); // Render the admin.ejs file
+});
+
+app.get("/cart", (req, res) => {
+  res.render("cart"); // Render the cart.ejs file
+});
+
+app.get("/create-products", (req, res) => {
+  res.render("createProducts"); // Render the createProducts.ejs file
+});
+
+app.get("/owner-login", (req, res) => {
+  res.render("owner-login"); // Render the owner-login.ejs file
+});
+
+app.get("/shop", (req, res) => {
+  res.render("shop"); // Render the shop.ejs file
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
