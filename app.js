@@ -22,7 +22,7 @@ app.use("/products", productsRouter);
 /* I am creating some routes for testing out ejs*/
 
 app.get("/", (req, res) => {
-  res.render("index", {error : ''}); // Render the index.ejs file
+  res.render("index", { error: "" }); // Render the index.ejs file
 });
 
 app.get("/header", (req, res) => {
@@ -46,7 +46,7 @@ app.get("/owner-login", (req, res) => {
 });
 
 app.get("/shop", (req, res) => {
-  res.render("shop"); // Render the shop.ejs file
+  res.render("shop", { products: [] }); // Render the shop.ejs file
 });
 
 app.listen(PORT, () => {
