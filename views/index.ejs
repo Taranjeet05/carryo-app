@@ -42,11 +42,11 @@ error.length > 0){ %>
         <p class="text-red-500 text-sm my-1"><%= error.password %></p>
         <% } %> <% if (error?.general) { %>
         <p class="text-red-500 my-2"><%= error.general %></p>
-        <% } %> <% if (!success) { %>
+        <% } %> <% if (success) { %>
         <div
           class="bg-green-500 text-white text-sm font-mono leading-tighter px-4 py-2 rounded-md my-4"
         >
-          <%= success %>hello
+          <%= success %>
         </div>
         <% } %>
         <input
