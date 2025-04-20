@@ -22,7 +22,8 @@ app.use("/products", productsRouter);
 /* I am creating some routes for testing out ejs*/
 
 app.get("/", (req, res) => {
-  res.render("index", { error: "" }); // Render the index.ejs file
+  res.render("index", { error: {}, success: "", formdata: {} });
+  // Render the index.ejs file
 });
 
 app.get("/header", (req, res) => {
