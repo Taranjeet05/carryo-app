@@ -38,7 +38,7 @@ app.get("/cart", (req, res) => {
 });
 
 app.get("/create-products", (req, res) => {
-  res.render("createProducts"); // Render the createProducts.ejs file
+  res.render("createProducts", { success: "" }); // Render the createProducts.ejs file
 });
 
 app.get("/owner-login", (req, res) => {
