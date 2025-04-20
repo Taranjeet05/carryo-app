@@ -22,7 +22,7 @@ app.use("/products", productsRouter);
 /* I am creating some routes for testing out ejs*/
 
 app.get("/", (req, res) => {
-  res.render("index", { error: {}, success: "", formdata: {} });
+  res.render("index");
   // Render the index.ejs file
 });
 

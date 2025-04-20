@@ -6,7 +6,7 @@ const userModel = require("../models/user-model");
 const bcrypt = require("bcrypt");
 
 const userRegistrationSchema = z.object({
-  userName: z.string().trim().min(3, "Username must be 3 characters long"),
+  userName: z.string().trim().min(3, "Username is Required"),
   email: z
     .string()
     .trim()
@@ -27,15 +27,8 @@ router.post("/register", async (req, res) => {
     const parsed = userRegistrationSchema.safeParse(req.body);
 
     if (!parsed.success) {
-      const errorMessage = {};
-      parsed.error.errors.forEach((error) => {
-        errorMessage[error.path[0]] = error.message;
-      });
-
-      return res.status(400).render("index", {
-        error: errorMessage,
-        success: "",
-        FormData: req.body,
+      return res.status(400).json({
+        error: parsed.error.errors.map((error) => error.message),
       });
     }
 
@@ -44,31 +37,21 @@ router.post("/register", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
 
     const user = await userModel.findOne({ email });
-    if (user) {
-      return res.status(400).render("index", {
-        error: { email: "This email is already registered." },
-        success: "",
-        formData: req.body,
-      });
-    }
+    if (user)
+      return res
+        .status(401)
+        .send("You cannot have new account with same Email.");
+
     const createUser = await userModel.create({
       userName,
       email,
       password: hashPassword,
     });
 
-    res.status(201).render("index", {
-      success: "Account created successfully 🎉",
-      error: {},
-      formData: {},
-    });
+    res.redirect("/");
   } catch (error) {
-    debug(`Error creating User ${error.message}`);
-    res.status(500).render("index", {
-      error: { general: "Something went wrong. Try again later." },
-      success: "",
-      FormData: req.body,
-    });
+    debug(`Error creating user ${error.message}`);
+    res.status(500).send("An internal server error occured");
   }
 });
 
