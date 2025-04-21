@@ -53,3 +53,23 @@ module.exports.registerUser = async (req, res) => {
     res.status(500).send("An internal server error occured");
   }
 };
+
+module.exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const findUser = await userModel.findOne({ email });
+    if (!findUser)
+      return res.status(401).send("Email or Password is Incorrect");
+    const verifyPassword = await bcrypt.compare(password, findUser.password);
+    if (!verifyPassword)
+      return res.status(401).send("Email or Password is Incorrect");
+
+    const token = genrateToken(findUser);
+    res.cookie("token", token);
+
+    res.redirect("/shop");
+  } catch (error) {
+    debug(`Error while login ${error.message}`);
+    res.status(500).send("An internal server error occured");
+  }
+};
