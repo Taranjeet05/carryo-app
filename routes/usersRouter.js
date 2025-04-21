@@ -4,6 +4,7 @@ const debug = require("debug")("development: usersRouter");
 const { z } = require("zod");
 const userModel = require("../models/user-model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userRegistrationSchema = z.object({
   userName: z.string().trim().min(3, "Username is Required"),
@@ -47,6 +48,10 @@ router.post("/register", async (req, res) => {
       email,
       password: hashPassword,
     });
+
+    const token = jwt.sign({ email, id: createUser._id }, process.env.SECRET);
+
+    res.cookie("token", token);
 
     res.redirect("/");
   } catch (error) {
