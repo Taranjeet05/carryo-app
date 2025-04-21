@@ -11,6 +11,7 @@ const productsRouter = require("./routes/productsRouter.js");
 const index = require("./routes/index.js");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
+const debug = require("debug")("development: app.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,5 +34,5 @@ app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  debug(`Server is running on port ${PORT}`);
 });
