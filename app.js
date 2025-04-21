@@ -8,10 +8,21 @@ const db = require("./config/mongoose-connection");
 const ownersRouter = require("./routes/ownersRouter.js");
 const usersRouter = require("./routes/usersRouter.js");
 const productsRouter = require("./routes/productsRouter.js");
+const expressSession = require("express-session");
+const flash = require("connect-flash");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+  expressSession({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
+
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
