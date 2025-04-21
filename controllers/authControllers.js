@@ -73,3 +73,8 @@ module.exports.loginUser = async (req, res) => {
     res.status(500).send("An internal server error occured");
   }
 };
+
+module.exports.logOut = (req, res) => {
+  res.cookie("token", "");
+  res.redirect("/");
+};
