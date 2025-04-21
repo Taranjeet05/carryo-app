@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(req.cookie.token, process.env.SECRET);
+    const decoded = jwt.verify(req.cookies.token, process.env.SECRET);
     const user = await userModel
       .findOne({ email: decoded.email })
       .select("-password");
@@ -19,6 +19,6 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     debug(`Something went wrong ${error.message}`);
-    redirect("/");
+    return res.redirect("/");
   }
 };
