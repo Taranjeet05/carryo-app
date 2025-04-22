@@ -6,7 +6,7 @@ const debug = require("debug")("development: index.js");
 
 router.get("/", (req, res) => {
   let error = req.flash("error");
-  res.render("index", { error });
+  res.render("index", { error, loggedIn: false });
 });
 
 router.get("/shop", isLoggedIn, async (req, res) => {
@@ -17,7 +17,7 @@ router.get("/shop", isLoggedIn, async (req, res) => {
     debug("Error creating owner:", error.message);
     res.status(500).send("An internal server error occurred");
   }
-/*
+  /*
   const dummyProducts = [
     {
       name: "Product 1",
