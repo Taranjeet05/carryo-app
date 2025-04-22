@@ -1,13 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const isLoggedIn = require("../middlewares/isLoggedIn");
+const productModel = require("../models/product-model");
+const debug = require("debug")("development: index.js");
 
 router.get("/", (req, res) => {
   let error = req.flash("error");
   res.render("index", { error });
 });
 
-router.get("/shop", isLoggedIn, (req, res) => {
+router.get("/shop", isLoggedIn, async (req, res) => {
+  try {
+    const products = await productModel.find();
+    res.render("shop", { products });
+  } catch (error) {
+    debug("Error creating owner:", error.message);
+    res.status(500).send("An internal server error occurred");
+  }
+/*
   const dummyProducts = [
     {
       name: "Product 1",
@@ -89,9 +99,7 @@ router.get("/shop", isLoggedIn, (req, res) => {
       textcolor: "#ff6f61",
       image: Buffer.from(""),
     },
-  ];
-
-  res.render("shop", { products: dummyProducts });
+  ];*/
 });
 
 module.exports = router;
