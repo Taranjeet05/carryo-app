@@ -19,11 +19,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    cart: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Product",
-      default: [],
-    },
+    cart: [
+      {
+        productId: {
+          type: [mongoose.Schema.Types.ObjectId],
+          ref: "Product",
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+          min: 1,
+        },
+      },
+    ],
     orders: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Order",
