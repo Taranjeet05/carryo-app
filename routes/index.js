@@ -13,17 +13,26 @@ router.get("/", (req, res) => {
 router.get("/shop", isLoggedIn, async (req, res) => {
   try {
     const products = await productModel.find();
-    res.render("shop", { products });
+    const success = req.flash("success");
+    res.render("shop", { products, success });
   } catch (error) {
     debug("Error creating owner:", error.message);
     res.status(500).send("An internal server error occurred");
   }
 });
 
+router.get("/cart", isLoggedIn, async (req, res) => {
+  const user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("cart.productId");
+    console.log(user)
+  res.render("cart", { user });
+});
+
 router.get("/addtocart/:id", isLoggedIn, async (req, res) => {
   try {
-    const id = req.params;
-    const user = await userModel.findOne({ user: req.user.email });
+    const id = req.params.id;
+    const user = await userModel.findOne({ email: req.user.email });
 
     if (!user) return res.redirect("/");
 
@@ -38,6 +47,7 @@ router.get("/addtocart/:id", isLoggedIn, async (req, res) => {
     }
 
     await user.save();
+    req.flash("success", "Added to Cart");
     res.redirect("/shop");
   } catch (error) {
     debug("Error creating owner:", error.message);
