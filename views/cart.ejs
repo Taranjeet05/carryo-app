@@ -73,22 +73,18 @@
                 </h2>
               </div>
 
-              <form
+                <form
                 method="POST"
                 action="/cart/remove/<%= item.productId._id %>"
-                class="flex justify-center items-center"
-              >
-                <button
-                  class="group bg-[<%= item.productId.textColor %>] text-white px-8 py-2 rounded-md text-sm transition-all transform duration-200 ease-in-out hover:bg-red-500 hover:scale-105 hover:shadow-lg"
+                class="absolute top-2 right-2"
                 >
-                  <span>Remove Product</span>
-                  <span
-                    class="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                  >
-                    🗑️</span
-                  >
+                <button
+                  class="text-white p-2 rounded-full transition-all transform duration-200 ease-in-out hover:scale-110"
+                  title="Remove Product"
+                >
+                  ❌
                 </button>
-              </form>
+                </form>
             </div>
           </div>
         </div>
