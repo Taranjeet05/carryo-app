@@ -7,7 +7,7 @@ const debug = require("debug")("development: index.js");
 
 router.get("/", (req, res) => {
   let error = req.flash("error");
-  res.render("index", { error, loggedIn: false });
+  res.render("index", { error, loggedIn: false, showFooter: false });
 });
 
 router.get("/shop", isLoggedIn, async (req, res) => {
