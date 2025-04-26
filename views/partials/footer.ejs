@@ -1,5 +1,4 @@
-
-
+<% if (typeof showFooter === 'undefined' || showFooter) { %>
 <footer class="bg-gray-100 text-gray-700 mt-20 border-t">
   <div
     class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8"
@@ -28,15 +27,15 @@
     <div>
       <h3 class="text-lg font-medium mb-4">Stay Connected</h3>
       <div class="flex space-x-4 mb-4">
-        <a href="#" class="text-xl hover:text-blue-600"
-          ><i class="ri-facebook-fill"></i
-        ></a>
-        <a href="#" class="text-xl hover:text-blue-400"
-          ><i class="ri-twitter-x-fill"></i
-        ></a>
-        <a href="#" class="text-xl hover:text-pink-500"
-          ><i class="ri-instagram-line"></i
-        ></a>
+        <a href="#" class="text-xl hover:text-blue-600">
+          <i class="ri-facebook-fill"></i>
+        </a>
+        <a href="#" class="text-xl hover:text-blue-400">
+          <i class="ri-twitter-x-fill"></i>
+        </a>
+        <a href="#" class="text-xl hover:text-pink-500">
+          <i class="ri-instagram-line"></i>
+        </a>
       </div>
       <form action="#" class="flex">
         <input
@@ -58,3 +57,4 @@
     &copy; <%= new Date().getFullYear() %> Carryo. All rights reserved.
   </div>
 </footer>
+<% } %>
