@@ -1,172 +1,110 @@
 <%- include('./partials/header') %>
 
-<!-- Swiper CSS -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
-/>
+<div class="min-h-screen bg-gray-50 px-4 sm:px-6 py-8 sm:py-10">
+  <h2 class="text-2xl sm:text-3xl font-bold mb-6">Shopping Cart</h2>
 
-<div
-  class="w-full min-h-screen flex flex-col lg:flex-row items-start px-10 py-10 gap-10 bg-gray-50"
->
-  <!-- Carousel Section -->
-  <div class="lg:w-[40%] w-full p-4">
-    <div class="swiper mySwiper h-[600px]">
-      <div class="swiper-wrapper">
-        <% user.cart.forEach((item) => { %>
-        <div class="swiper-slide">
-          <div
-            class="rounded-md overflow-hidden border border-gray-200 shadow-sm"
-          >
-            <!-- Product Image -->
-            <div
-              class="w-full flex items-center justify-center h-80 bg-[<%= item.productId.bgColor %>]"
-            >
-              <img
-                class="h-[18rem]"
-                src="data:image/jpeg;base64,<%= item.productId.image.toString('base64') %>"
-                alt="product image"
-              />
-            </div>
-
-            <!-- Name + Quantity -->
-            <div
-              class="w-full flex justify-between items-center px-5 py-4 bg-[<%= item.productId.panelColor %>]"
-            >
-              <h3 class="text-2xl font-semibold text-black">
-                <%= item.productId.name %>
-              </h3>
-              <div
-                class="flex items-center gap-3 bg-white px-2 py-1 rounded-full"
-              >
-                <form
-                  method="POST"
-                  action="/cart/decrease/<%= item.productId._id %>"
-                >
-                  <button
-                    class="ri-subtract-line text-black hover:text-red-500"
-                  ></button>
-                </form>
-                <div class="px-3 font-bold text-black">
-                  <%= item.quantity %>
-                </div>
-                <form
-                  method="POST"
-                  action="/cart/increase/<%= item.productId._id %>"
-                >
-                  <button
-                    class="ri-add-line text-black hover:text-green-500"
-                  ></button>
-                </form>
-              </div>
-            </div>
-
-            <!-- Subtotal + Remove -->
-            <div
-              class="flex flex-col gap-3 text-white px-5 py-4 bg-[<%= item.productId.textColor %>]"
-            >
-              <div class="w-full flex justify-between">
-                <h4 class="text-lg">Subtotal</h4>
-                <h2 class="text-lg font-semibold">
-                  $ <%= ((item.productId.price - item.productId.discount) *
-                  item.quantity).toFixed(2) %>
-                </h2>
-              </div>
-
-                <form
-                method="POST"
-                action="/cart/remove/<%= item.productId._id %>"
-                class="absolute top-2 right-2"
-                >
-                <button
-                  class="text-white p-2 rounded-full transition-all transform duration-200 ease-in-out hover:scale-110"
-                  title="Remove Product"
-                >
-                  ❌
-                </button>
-                </form>
-            </div>
-          </div>
-        </div>
-        <% }) %>
-      </div>
-    </div>
+  <% if (user.cart.length === 0) { %>
+  <div class="bg-white rounded-xl p-8 text-center">
+    <p class="text-gray-500 text-lg">Your cart is empty 🛒</p>
+    <a
+      href="/shop"
+      class="inline-block mt-4 bg-black text-white px-6 py-2 rounded-lg"
+    >
+      Go Shopping
+    </a>
   </div>
+  <% } else { %>
 
-  <!-- Price Breakdown Section -->
-  <div class="lg:w-[60%] w-full sticky top-10">
-    <h3 class="text-2xl font-bold mb-4">🧾 Price Breakdown</h3>
-    <div class="px-6 py-6">
-      <% user.cart.forEach((item) => { const discountedPrice =
-      item.productId.price - item.productId.discount; const subtotal =
-      discountedPrice * item.quantity; %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- ================= CART ITEMS ================= -->
+    <div class="lg:col-span-2 space-y-6">
+      <% user.cart.forEach(item => { %>
+      <div
+        class="bg-white rounded-2xl shadow-sm p-4 sm:p-6 flex flex-wrap sm:flex-nowrap items-center gap-4"
+      >
+        <!-- Product Image -->
+        <div class="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
+          <img
+            src="data:image/jpeg;base64,<%= item.productId.image.toString('base64') %>"
+            alt="<%= item.productId.name %>"
+            class="w-full h-full object-cover rounded-xl"
+          />
+        </div>
 
-      <div class="mb-6">
-        <h4 class="text-xl font-semibold text-gray-800 mb-2">
-          <%= item.productId.name %>
-        </h4>
+        <!-- Product Info -->
+        <div class="flex-1 min-w-[140px]">
+          <h3 class="text-lg font-semibold"><%= item.productId.name %></h3>
+          <p class="text-gray-500">$<%= item.productId.price %></p>
+        </div>
 
-        <div class="flex justify-between mb-1">
-          <span>Original Price</span>
-          <span class="line-through text-gray-400"
-            >$ <%= item.productId.price.toFixed(2) %></span
+        <!-- Quantity -->
+        <div class="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-xl">
+          <a
+            href="/cart/decrease/<%= item.productId._id %>"
+            class="w-10 h-10 flex items-center justify-center font-bold hover:bg-gray-200 rounded-lg"
+            >−</a
+          >
+
+          <span class="w-6 text-center font-semibold">
+            <%= item.quantity %>
+          </span>
+
+          <a
+            href="/cart/increase/<%= item.productId._id %>"
+            class="w-10 h-10 flex items-center justify-center font-bold hover:bg-gray-200 rounded-lg"
+            >+</a
           >
         </div>
 
-        <div class="flex justify-between mb-1">
-          <span>Discount</span>
-          <span class="text-green-600"
-            >- $ <%= item.productId.discount.toFixed(2) %></span
-          >
-        </div>
-
-        <div class="flex justify-between mb-1">
-          <span>Price After Discount</span>
-          <span>$ <%= discountedPrice.toFixed(2) %></span>
-        </div>
-
-        <div class="flex justify-between mb-1">
-          <span>Service Fee</span>
-          <span>$ 0.24</span>
-        </div>
-
-        <div class="flex justify-between mb-1">
-          <span>Shipping</span>
-          <span class="text-green-500 font-medium">FREE</span>
-        </div>
-
-        <hr class="my-4 border-t border-gray-300" />
+        <!-- Delete -->
+        <a
+          href="/cart/remove/<%= item.productId._id %>"
+          class="ml-auto w-10 h-10 flex items-center justify-center text-gray-400 hover:text-red-500"
+        >
+          🗑️
+        </a>
       </div>
       <% }) %>
+    </div>
 
-      <!-- Total Calculation -->
-      <div
-        class="flex justify-between items-center text-xl font-bold text-green-700"
-      >
-        <h3>Total</h3>
-        <h3>
-          $ <%= user.cart.reduce((total, item) => { const discountedPrice =
-          item.productId.price - item.productId.discount; return total +
-          (discountedPrice * item.quantity) + 0.24; }, 0).toFixed(2) %>
-        </h3>
+    <!-- ================= ORDER SUMMARY ================= -->
+    <div
+      class="bg-white rounded-2xl shadow-sm p-6 h-fit sticky bottom-0 lg:static"
+    >
+      <h3 class="text-xl font-semibold mb-6">Order Summary</h3>
+
+      <div class="space-y-4 text-gray-600">
+        <div class="flex justify-between">
+          <span>Subtotal</span>
+          <span>$<%= subtotal %></span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>Discount</span>
+          <span>- $<%= discount %></span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>Delivery Fee</span>
+          <span>$<%= deliveryFee %></span>
+        </div>
+
+        <hr />
+
+        <div class="flex justify-between text-lg font-bold text-black">
+          <span>Total</span>
+          <span>$<%= total %></span>
+        </div>
       </div>
+
+      <button
+        class="mt-6 w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800"
+      >
+        Proceed to Checkout
+      </button>
     </div>
   </div>
+  <% } %>
 </div>
-
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<script>
-  const swiper = new Swiper(".mySwiper", {
-    direction: "vertical",
-    slidesPerView: 1,
-    spaceBetween: 30,
-    mousewheel: true,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-  });
-</script>
 
 <%- include('./partials/footer') %>
