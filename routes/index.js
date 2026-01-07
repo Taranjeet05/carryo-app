@@ -122,4 +122,18 @@ router.get("/addtocart/:id", isLoggedIn, async (req, res) => {
   }
 });
 
+router.get("/account", isLoggedIn, async (req, res) => {
+  try {
+    const user = await userModel.findOne({ email: req.user.email });
+    if (!user) return res.redirect("/");
+
+    res.render("myAccount", {
+      loggedIn: true, // headers
+      user, // passing user object
+    });
+  } catch (error) {
+    console.error("Failed to Fetch User", error);
+  }
+});
+
 module.exports = router;

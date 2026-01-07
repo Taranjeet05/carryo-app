@@ -1,0 +1,36 @@
+<%- include('./partials/header') %>
+
+<div class="min-h-screen bg-gray-50 px-4 sm:px-6 py-8">
+  <h2 class="text-5xl font-bold ml-40 font-mono">My Account</h2>
+  <!-- Profile Section -->
+  <div
+    class="max-w-3xl mx-auto bg-white rounded-xl shadow p-6 flex items-center gap-7"
+  >
+    <!-- Profile Image -->
+    <div class="w-20 flex-shrink-0">
+      <img
+        src="<%= user.picture || '/images/User.jpg' %>"
+        alt="Profile"
+        class="w-full h-full object-cover rounded-full border border-gray-200 hover:border-blue-900"
+      />
+    </div>
+
+    <!-- User Info -->
+    <div>
+      <h2 class="text-xl font-bold text-gray-800"><%= user.userName %></h2>
+      <p class="text-gray-500 text-sm"><%= user.email %></p>
+    </div>
+  </div>
+
+  <!-- Account Options -->
+  <div class="max-w-3xl mx-auto mt-6 space-y-4">
+    <a
+      href="/users/logout"
+      class="block bg-red-500 hover:bg-red-600 text-white rounded-xl text-center py-3 font-semibold"
+    >
+      Logout
+    </a>
+  </div>
+</div>
+
+<%- include('./partials/footer') %>
